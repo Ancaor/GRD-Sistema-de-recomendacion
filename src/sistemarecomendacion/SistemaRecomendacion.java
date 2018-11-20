@@ -78,7 +78,17 @@ public class SistemaRecomendacion {
         System.out.println("Vecinos mas cercanos");
         for(int i=0; i < aux.size(); i++){
             System.out.println(aux.get(i));
+        
         }
+        
+            ArrayList<Integer> aux2 = users.peliculasVecindario(900, aux);
+            
+            
+        for(int i=0; i < aux2.size(); i++){
+            System.out.println(aux2.get(i));
+        
+        }
+        
         
     }
     

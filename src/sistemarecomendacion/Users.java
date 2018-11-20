@@ -7,6 +7,7 @@ package sistemarecomendacion;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -186,6 +187,66 @@ public class Users {
         return users.size();
     }
     
-    
+    public ArrayList<Integer> peliculasVecindario(int usuario,ArrayList<Integer> vecinos){
+        
+        HashMap<Integer,Float> peliculasVecindario = new HashMap<>();
+        HashMap<Integer,Float> cDivisorPeliculas = new HashMap<>();
+        
+        for(int i=0; i< vecinos.size(); i++){
+            
+            HashMap<Integer,Float> rating_vecino = users.get(vecinos.get(i));
+            
+            for (Map.Entry<Integer, Float> entry : rating_vecino.entrySet()){
+                
+                if(!users.get(usuario).containsKey(entry.getKey())){
+                    
+                    float c_divisor = abs(this.calcSim(usuario, vecinos.get(i)));
+                    
+                    float estimacion = this.calcSim(usuario, vecinos.get(i)) * entry.getValue();
+                    
+                    if(!peliculasVecindario.containsKey(entry.getKey())){
+                        peliculasVecindario.put(entry.getKey(), estimacion);
+                        cDivisorPeliculas.put(entry.getKey(), c_divisor);
+                    }else{
+                        estimacion += peliculasVecindario.get(entry.getKey());
+                        c_divisor += cDivisorPeliculas.get(entry.getKey());
+                        
+                        peliculasVecindario.replace(entry.getKey(), estimacion);
+                        cDivisorPeliculas.replace(entry.getKey(), c_divisor);
+                        
+                    }
+                    
+                }
+            
+            }
+            
+        }
+        
+        // ya tienes el C y el sumatorio de sum(u,v)r(v,i)
+        PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>> pq = new PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>>(new ComparatorPQ());
+
+        
+        
+        for (Map.Entry<Integer, Float> entry : peliculasVecindario.entrySet()){
+            
+            Float estimacion_final = cDivisorPeliculas.get(entry.getKey()) * entry.getValue();
+            
+            AbstractMap.SimpleEntry<Float, Integer> pair 
+                 = new AbstractMap.SimpleEntry<>(estimacion_final, entry.getKey());
+            
+            pq.add(pair);
+            
+        }
+        
+        ArrayList<Integer> peliculas = new ArrayList<>();
+        
+        for(int i=0; i< 5 ; i++){
+            peliculas.add(pq.poll().getValue());
+        }
+        
+        return peliculas;
+        
+        
+    }
     
 }
