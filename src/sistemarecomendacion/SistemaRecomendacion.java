@@ -30,13 +30,13 @@ public class SistemaRecomendacion {
         
         HashMap<Integer,Float> rating_usuario = new HashMap<>();
         
-        /*
+        
         
         System.out.println("Vote del 1 al 5 las siguientes peliculas:\n");
-        
+        int movie_id=0;
         for(int i=0;i < 10 ; i++){
             
-            int movie_id = movies.getRandomMovie();
+            movie_id = movies.getRandomMovie();
         
             System.out.println("    - " + movies.getMovie(movie_id) + " :");
 
@@ -64,15 +64,18 @@ public class SistemaRecomendacion {
         
         }
         
-        users.addUser(rating_usuario);
-        */
+        users.addUser(900,rating_usuario);
+        users.addUser(901,rating_usuario);
         
-        float sim = users.calcSim(1, 8);
+        
+        
+        float sim = users.calcSim(900, 901);
         
         System.out.println(sim);
         
-        ArrayList<Integer> aux = users.getKusuariosSimilaresA(1, 5);
+        ArrayList<Integer> aux = users.getKusuariosSimilaresA(900, 5);
         
+        System.out.println("Vecinos mas cercanos");
         for(int i=0; i < aux.size(); i++){
             System.out.println(aux.get(i));
         }

@@ -74,8 +74,8 @@ public class Users {
     }
     
     
-    public void addUser(HashMap<Integer,Float> rating){
-        this.users.put(this.users.size(), rating);
+    public void addUser(int pos,HashMap<Integer,Float> rating){
+        this.users.put(pos, rating);
     }
     
     
@@ -88,6 +88,7 @@ public class Users {
         HashMap<Integer,Float> usr1_ratings = users.get(usr1);
         HashMap<Integer,Float> usr2_ratings = users.get(usr2);
         
+        
         float media_usr1 = 0;
         float media_usr2 = 0;
         int i=0;
@@ -95,6 +96,7 @@ public class Users {
         for (Map.Entry<Integer, Float> entry : usr1_ratings.entrySet()){
             i++;
             media_usr1+=entry.getValue();
+           // System.out.println(entry.getValue());
         }
         media_usr1 = media_usr1 / i;
         i=0;
@@ -102,9 +104,13 @@ public class Users {
         for (Map.Entry<Integer, Float> entry : usr2_ratings.entrySet()){
             i++;
             media_usr2+=entry.getValue();
+           // System.out.println("2: "+entry.getValue());
         }
         media_usr2 = media_usr2 / i;
         
+     //   System.out.println("media1 = "+media_usr1);
+      //  System.out.println("media2 = "+media_usr2);
+
         
         float dividendo=0;
         float divisor1=0;
@@ -114,7 +120,10 @@ public class Users {
             //System.out.println("clave=" + entry.getKey() + ", valor=" + entry.getValue());
             for (Map.Entry<Integer, Float> entry_2 : usr2_ratings.entrySet()){
                 
+               // System.out.println(entry.getKey() +"  , "+entry_2.getKey());
+                
                 if(entry.getKey().equals(entry_2.getKey())){
+                  //  System.out.println("Iguales");
                     
                     dividendo+=(entry.getValue()-media_usr1) * (entry_2.getValue() - media_usr2);
                     
@@ -127,14 +136,25 @@ public class Users {
             }
         }
         
+       // System.out.println("divisor1 "+divisor1);
+       // System.out.println("divisor2 "+divisor2);
+        
         divisor1 =  (float) sqrt(divisor1);
         divisor2 = (float) sqrt(divisor2);
         
+        //System.out.println("divisor1 "+divisor1);
+        //System.out.println("divisor2 "+divisor2);
+        
         float divisor = divisor1*divisor2;
+        
+        //System.out.println("dividendo "+dividendo);
         
         float pearson = dividendo / divisor;
         
-        return pearson;
+        if(divisor == 0 && dividendo ==0)
+            return 0;
+        else
+            return pearson;
         
     }
     
@@ -143,12 +163,15 @@ public class Users {
         PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>> pq = new PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>>(new ComparatorPQ());
         
         for (Map.Entry<Integer, HashMap<Integer, Float>> entry : users.entrySet()){
-            float sim = this.calcSim(idUsuario, entry.getKey());
+            if(idUsuario != entry.getKey()){
+                float sim = this.calcSim(idUsuario, entry.getKey());
             
-           AbstractMap.SimpleEntry<Float, Integer> pair 
-            = new AbstractMap.SimpleEntry<>(sim, entry.getKey());
-           
-           pq.add(pair);
+                AbstractMap.SimpleEntry<Float, Integer> pair 
+                 = new AbstractMap.SimpleEntry<>(sim, entry.getKey());
+
+                pq.add(pair);
+            }
+            
         }
         
         ArrayList<Integer> kUsers = new ArrayList<>();
@@ -157,7 +180,11 @@ public class Users {
         kUsers.add(pq.poll().getValue());
         
         return kUsers;
-} 
+    }
+    
+    public int size(){
+        return users.size();
+    }
     
     
     
