@@ -7,6 +7,7 @@ package sistemarecomendacion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -66,20 +67,27 @@ public class SistemaRecomendacion {
         
         users.addUser(900,rating_usuario);
         users.addUser(901,rating_usuario);
+
         
+        users.calcMeanRatings();
         
+        System.out.println("Medias": );
         
-        float sim = users.calcSim(900, 901);
+        /*
+        for(int i = 1; i < users.size(); i++){
+            float sim = users.calcSim(605, 605+i);
+            
+            System.out.println("Similitud usuario activo con usuario num " + (605+i) + ": " + sim);
+        }
         
-        System.out.println(sim);
+        //System.out.println(sim);
         
-        ArrayList<Integer> aux = users.getKusuariosSimilaresA(900, 5);
+        ArrayList<Integer> aux = users.getKusuariosSimilaresA(605, 5);
         
         System.out.println("Vecinos mas cercanos");
         for(int i=0; i < aux.size(); i++){
             System.out.println(aux.get(i));
-        }
-        
+        }*/
     }
     
 }

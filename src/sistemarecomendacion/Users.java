@@ -23,6 +23,8 @@ import java.util.Set;
 public class Users {
     
     private HashMap<Integer,HashMap<Integer,Float>> users = new HashMap<>();  // id_usuario, (id_peli, rating_peli);
+    private HashMap <Integer, Float> mrats = new HashMap<>();
+    private HashMap <Integer, Float> sims = new HashMap<>();
 
     
     public Users(String ratingDB){
@@ -78,6 +80,28 @@ public class Users {
         this.users.put(pos, rating);
     }
     
+    public void calcMeanRatings(){
+        float mean_rating = 0;
+        float sum_ratings = 0;
+        
+        for (Map.Entry<Integer, HashMap<Integer,Float>> entry: users.entrySet()){
+            sum_ratings = 0;
+            int tam = 0;
+            
+            for(Map.Entry<Integer, Float> vals : entry.getValue().entrySet()){
+                sum_ratings += vals.getValue();
+                tam ++;
+            }
+                
+            mean_rating = sum_ratings / tam;
+            
+            mrats.put(entry.getKey(), mean_rating);
+        }
+    }
+    
+    public float getMeanRating(Integer user_id){
+        return mrats.get(user_id);
+    }
     
     public float calcSim(int usr1, int usr2){
 
@@ -88,29 +112,14 @@ public class Users {
         HashMap<Integer,Float> usr1_ratings = users.get(usr1);
         HashMap<Integer,Float> usr2_ratings = users.get(usr2);
         
-        
         float media_usr1 = 0;
         float media_usr2 = 0;
-        int i=0;
-        
-        for (Map.Entry<Integer, Float> entry : usr1_ratings.entrySet()){
-            i++;
-            media_usr1+=entry.getValue();
-           // System.out.println(entry.getValue());
-        }
-        media_usr1 = media_usr1 / i;
-        i=0;
-        
-        for (Map.Entry<Integer, Float> entry : usr2_ratings.entrySet()){
-            i++;
-            media_usr2+=entry.getValue();
-           // System.out.println("2: "+entry.getValue());
-        }
-        media_usr2 = media_usr2 / i;
+
+        media_usr1 = getMeanRating(usr1);
+        media_usr2 = getMeanRating(usr2);
         
      //   System.out.println("media1 = "+media_usr1);
       //  System.out.println("media2 = "+media_usr2);
-
         
         float dividendo=0;
         float divisor1=0;
@@ -127,8 +136,8 @@ public class Users {
                     
                     dividendo+=(entry.getValue()-media_usr1) * (entry_2.getValue() - media_usr2);
                     
-                    divisor1+=(entry.getValue()-media_usr1)*(entry.getValue()-media_usr1);
-                    divisor2+=(entry_2.getValue() - media_usr2)*(entry_2.getValue() - media_usr2);
+                    divisor1+= Math.pow(entry.getValue()-media_usr1, 2);
+                    divisor2+= Math.pow(entry_2.getValue() - media_usr2, 2);
                     
                 }
                 
@@ -150,6 +159,7 @@ public class Users {
         //System.out.println("dividendo "+dividendo);
         
         float pearson = dividendo / divisor;
+        sims.put(usr2, pearson);
         
         if(divisor == 0 && dividendo ==0)
             return 0;
