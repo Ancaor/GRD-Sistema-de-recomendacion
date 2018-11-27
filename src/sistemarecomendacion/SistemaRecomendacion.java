@@ -5,9 +5,11 @@
  */
 package sistemarecomendacion;
 
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -35,11 +37,11 @@ public class SistemaRecomendacion {
         
         System.out.println("Vote del 1 al 5 las siguientes peliculas:\n");
         int movie_id=0;
-        for(int i=0;i < 10 ; i++){
+        for(int i=0;i < 500 ; i++){
             
             movie_id = movies.getRandomMovie();
         
-            System.out.println("    - " + movies.getMovie(movie_id) + " :");
+            /*System.out.println("    - " + movies.getMovie(movie_id) + " :");
 
             entrada = in.nextLine();
             introducido = false;
@@ -59,9 +61,10 @@ public class SistemaRecomendacion {
                     entrada = in.nextLine();
                 }
 
-            }
-            
-            rating_usuario.put(movie_id,Float.valueOf(entrada));
+            }*/
+            Random rand = new Random();
+            int id = abs(rand.nextInt() % 5);
+            rating_usuario.put(movie_id,Float.valueOf(id+1));
         
         }
         
@@ -71,15 +74,22 @@ public class SistemaRecomendacion {
         
         users.calcMeanRatings();
         
-        System.out.println("Medias": );
+       /* for(int i = 1; i < 10; i++){
+           System.out.println("Media del usuario " + i + " = " + users.getMeanRating(i));           
+        }*/
+                
         
-        /*
-        for(int i = 1; i < users.size(); i++){
-            float sim = users.calcSim(605, 605+i);
+        
+        
+        Random rand = new Random();
+        for(int i = 1; i < 10; i++){
             
-            System.out.println("Similitud usuario activo con usuario num " + (605+i) + ": " + sim);
+            int id = abs(rand.nextInt() % users.size());
+            float sim = users.calcSim(900,id);
+            
+            System.out.println("Similitud usuario activo con usuario num " + (id) + ": " + sim);
         }
-        
+        /*
         //System.out.println(sim);
         
         ArrayList<Integer> aux = users.getKusuariosSimilaresA(605, 5);
@@ -87,22 +97,10 @@ public class SistemaRecomendacion {
         System.out.println("Vecinos mas cercanos");
         for(int i=0; i < aux.size(); i++){
             System.out.println(aux.get(i));
-<<<<<<< HEAD
         }*/
-=======
+
         
         }
         
-            ArrayList<Integer> aux2 = users.peliculasVecindario(900, aux);
-            
-            
-        for(int i=0; i < aux2.size(); i++){
-            System.out.println(aux2.get(i));
-        
-        }
-        
-        
->>>>>>> b44ca0efb01b39d8aeacd9d24f2ccc92ab479f7d
-    }
     
 }

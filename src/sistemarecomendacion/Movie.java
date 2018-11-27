@@ -62,4 +62,7 @@ public class Movie {
             id = rand.nextInt() % movies.size();
         return id; 
     }
+   public int size(){
+       return movies.size();
+   }
 }

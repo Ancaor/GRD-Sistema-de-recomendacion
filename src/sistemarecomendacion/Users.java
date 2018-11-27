@@ -119,8 +119,8 @@ public class Users {
         media_usr1 = getMeanRating(usr1);
         media_usr2 = getMeanRating(usr2);
         
-     //   System.out.println("media1 = "+media_usr1);
-      //  System.out.println("media2 = "+media_usr2);
+       //System.out.println("media1 = "+media_usr1);
+       //System.out.println("media2 = "+media_usr2);
         
         float dividendo=0;
         float divisor1=0;
@@ -146,8 +146,8 @@ public class Users {
             }
         }
         
-       // System.out.println("divisor1 "+divisor1);
-       // System.out.println("divisor2 "+divisor2);
+       //System.out.println("divisor1 "+divisor1);
+       //System.out.println("divisor2 "+divisor2);
         
         divisor1 =  (float) sqrt(divisor1);
         divisor2 = (float) sqrt(divisor2);
