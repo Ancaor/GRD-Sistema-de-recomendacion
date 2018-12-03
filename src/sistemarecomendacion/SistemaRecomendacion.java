@@ -37,7 +37,7 @@ public class SistemaRecomendacion {
         
         System.out.println("Vote del 1 al 5 las siguientes peliculas:\n");
         int movie_id=0;
-        for(int i=0;i < 500 ; i++){
+        for(int i=0;i < 10 ; i++){
             
             movie_id = movies.getRandomMovie();
         
@@ -82,23 +82,31 @@ public class SistemaRecomendacion {
         
         
         Random rand = new Random();
-        for(int i = 1; i < 10; i++){
+        /*for(int i = 1; i < 10; i++){
             
             int id = abs(rand.nextInt() % users.size());
             float sim = users.calcSim(900,id);
             
             System.out.println("Similitud usuario activo con usuario num " + (id) + ": " + sim);
-        }
-        /*
+        }*/
+        
         //System.out.println(sim);
         
-        ArrayList<Integer> aux = users.getKusuariosSimilaresA(605, 5);
+        ArrayList<Integer> aux = users.getKusuariosSimilaresA(900, 10);
         
         System.out.println("Vecinos mas cercanos");
         for(int i=0; i < aux.size(); i++){
-            System.out.println(aux.get(i));
-        }*/
-
+            System.out.println("usuario " + aux.get(i)+ " similitud = " + users.getSim(aux.get(i)));
+            
+        }
+        
+        ArrayList<Integer> aux2 = users.peliculasVecindario(900, aux);
+        
+        System.out.println("Peliculas no vistas por el usuario activo");
+        for(int i=0; i < aux2.size(); i++){
+            System.out.println(movies.getMovie(aux2.get(i)));
+            
+        }
         
         }
         

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.Collections;
 
 /**
  *
@@ -169,6 +170,10 @@ public class Users {
         
     }
     
+    public float getSim(int id){
+        return sims.get(id);
+    }
+    
     public ArrayList<Integer> getKusuariosSimilaresA(int idUsuario, int k){
         
         PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>> pq = new PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>>(new ComparatorPQ());
@@ -176,6 +181,8 @@ public class Users {
         for (Map.Entry<Integer, HashMap<Integer, Float>> entry : users.entrySet()){
             if(idUsuario != entry.getKey()){
                 float sim = this.calcSim(idUsuario, entry.getKey());
+                //this.calcSim(idUsuario, entry.getKey());
+                //float sim = getSim(entry.getKey());
             
                 AbstractMap.SimpleEntry<Float, Integer> pair 
                  = new AbstractMap.SimpleEntry<>(sim, entry.getKey());
@@ -186,9 +193,11 @@ public class Users {
         }
         
         ArrayList<Integer> kUsers = new ArrayList<>();
-        
+        //pq.reverse();
         for(int i=0; i < k ; i++)
-        kUsers.add(pq.poll().getValue());
+            kUsers.add(pq.poll().getValue());
+        
+        //Collections.sort(kUsers);
         
         return kUsers;
     }
@@ -250,13 +259,37 @@ public class Users {
         
         ArrayList<Integer> peliculas = new ArrayList<>();
         
-        for(int i=0; i< 5 ; i++){
+        for(int i=0; i< 10 ; i++){
             peliculas.add(pq.poll().getValue());
         }
         
         return peliculas;
         
         
+    }
+    
+    public HashMap <Integer, Float> prediccionNoVistas(int usuario,ArrayList<Integer> vecinos,ArrayList<Integer> peliculas){
+        
+        HashMap <Integer, Float> predicciones = new HashMap<>();
+        ArrayList<Float> valoracionesP = new ArrayList<>();
+        HashMap<Integer,Float> vals = null;
+        float sum=0;
+        
+        for (int i : peliculas){
+            for (int j : vecinos){
+                sum=0;
+                vals = users.get(j);
+                 if(vals.containsKey(i)){
+                     valoracionesP.add(vals.get(i)*this.getSim(j));
+                 }
+            }
+            for(Float k : valoracionesP){
+                sum+=k;
+            }
+            predicciones.put(i,sum/valoracionesP.size());
+            valoracionesP.clear();
+        }
+    return predicciones;
     }
     
 }

@@ -17,9 +17,9 @@ public class ComparatorPQ implements Comparator<AbstractMap.SimpleEntry<Float, I
             // Overriding compare()method of Comparator  
                         // for descending order of cgpa 
             public int compare(AbstractMap.SimpleEntry<Float, Integer> s1, AbstractMap.SimpleEntry<Float, Integer> s2) { 
-                if (s1.getKey()> s2.getKey()) 
+                if (s1.getKey() < s2.getKey()) 
                     return 1; 
-                else if (s1.getKey() < s2.getKey()) 
+                else if (s1.getKey() > s2.getKey()) 
                     return -1; 
                                 return 0; 
                 } 
