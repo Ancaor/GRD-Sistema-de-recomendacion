@@ -101,10 +101,11 @@ public class SistemaRecomendacion {
         }
         
         ArrayList<Integer> aux2 = users.peliculasVecindario(900, aux);
+        HashMap<Integer,Float> aux3 = users.prediccionNoVistas(900,aux, aux2);
         
-        System.out.println("Peliculas no vistas por el usuario activo");
-        for(int i=0; i < aux2.size(); i++){
-            System.out.println(movies.getMovie(aux2.get(i)));
+        System.out.println("Peliculas recomendadas al usuario activo");
+        for(int i=0; i < aux3.size(); i++){
+            System.out.println(movies.getMovie(aux3.get(i)));
             
         }
         

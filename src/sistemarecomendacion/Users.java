@@ -268,9 +268,10 @@ public class Users {
         
     }
     
-    public HashMap <Integer, Float> prediccionNoVistas(int usuario,ArrayList<Integer> vecinos,ArrayList<Integer> peliculas){
+    public HashMap<Integer,Float> prediccionNoVistas(int usuario,ArrayList<Integer> vecinos,ArrayList<Integer> peliculas){
         
-        HashMap <Integer, Float> predicciones = new HashMap<>();
+        //HashMap <Integer, Float> predicciones = new HashMap<>();
+        PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>> predicciones = new PriorityQueue<AbstractMap.SimpleEntry<Float, Integer>>(new ComparatorPQ());
         ArrayList<Float> valoracionesP = new ArrayList<>();
         HashMap<Integer,Float> vals = null;
         float sum=0;
@@ -286,10 +287,18 @@ public class Users {
             for(Float k : valoracionesP){
                 sum+=k;
             }
-            predicciones.put(i,sum/valoracionesP.size());
+            predicciones.add(new AbstractMap.SimpleEntry<>(sum/valoracionesP.size(),i));
             valoracionesP.clear();
         }
-    return predicciones;
+        
+        HashMap<Integer,Float> prediccion;
+        prediccion = new HashMap<>();
+        
+        for(int i=0; i< 10 ; i++){
+            AbstractMap.SimpleEntry<Float, Integer> tmp = predicciones.poll();
+            prediccion.put(tmp.getValue(),tmp.getKey());
+        }
+    return prediccion;
     }
     
 }
