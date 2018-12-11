@@ -41,27 +41,6 @@ public class SistemaRecomendacion {
             
             movie_id = movies.getRandomMovie();
         
-            /*System.out.println("    - " + movies.getMovie(movie_id) + " :");
-
-            entrada = in.nextLine();
-            introducido = false;
-
-            while(!introducido){
-
-                try{
-                    Integer.valueOf(entrada);
-                    if(Integer.valueOf(entrada)< 1 || Integer.valueOf(entrada) > 5){
-                        System.out.println("El numero de votación debe ser siempre entre 1 y 5, intentelo de nuevo: ");
-                        entrada = in.nextLine();
-                    }else{
-                        introducido=true;
-                    }
-                }catch(NumberFormatException e){
-                    System.out.println("No ha introducido un número, intentelo de nuevo: ");
-                    entrada = in.nextLine();
-                }
-
-            }*/
             Random rand = new Random();
             int id = abs(rand.nextInt() % 5);
             rating_usuario.put(movie_id,Float.valueOf(id+1));
@@ -73,24 +52,11 @@ public class SistemaRecomendacion {
 
         
         users.calcMeanRatings();
-        
-       /* for(int i = 1; i < 10; i++){
-           System.out.println("Media del usuario " + i + " = " + users.getMeanRating(i));           
-        }*/
                 
         
         
         
         Random rand = new Random();
-        /*for(int i = 1; i < 10; i++){
-            
-            int id = abs(rand.nextInt() % users.size());
-            float sim = users.calcSim(900,id);
-            
-            System.out.println("Similitud usuario activo con usuario num " + (id) + ": " + sim);
-        }*/
-        
-        //System.out.println(sim);
         
         ArrayList<Integer> aux = users.getKusuariosSimilaresA(900, 10);
         
@@ -103,11 +69,13 @@ public class SistemaRecomendacion {
         ArrayList<Integer> aux2 = users.peliculasVecindario(900, aux);
         HashMap<Integer,Float> aux3 = users.prediccionNoVistas(900,aux, aux2);
         
-        System.out.println("Peliculas recomendadas al usuario activo");
-        for(int i=0; i < aux3.size(); i++){
-            System.out.println(movies.getMovie(aux3.get(i)));
-            
+        System.out.println("nPeliculas recomendadas al usuario activo\n");
+        
+        for (Map.Entry<Integer, Float> entry: aux3.entrySet()){
+            System.out.println("id_pelicula: " + entry.getKey() + " valoración: " + entry.getValue());
         }
+        
+    
         
         }
         
