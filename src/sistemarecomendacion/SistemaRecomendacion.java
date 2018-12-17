@@ -14,7 +14,10 @@ import java.util.Scanner;
 
 /**
  *
- * @author ancaor
+ * @author Antonio Camarero
+ * Jose Miguel Hernández García
+ * Antonio Martos Rodriguez
+ * Oscar Osorio Giraldez
  */
 public class SistemaRecomendacion {
 
@@ -52,10 +55,7 @@ public class SistemaRecomendacion {
 
         
         users.calcMeanRatings();
-                
-        
-        
-        
+
         Random rand = new Random();
         
         ArrayList<Integer> aux = users.getKusuariosSimilaresA(900, 10);

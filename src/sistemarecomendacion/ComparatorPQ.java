@@ -10,7 +10,10 @@ import java.util.Comparator;
 
 /**
  *
- * @author ancaor
+ * @author Antonio Camarero
+ * Jose Miguel Hernández García
+ * Antonio Martos Rodriguez
+ * Oscar Osorio Giraldez
  */
 public class ComparatorPQ implements Comparator<AbstractMap.SimpleEntry<Float, Integer>>{ 
               
